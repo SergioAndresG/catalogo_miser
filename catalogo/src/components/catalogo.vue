@@ -196,8 +196,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .wine-catalog {
-    margin: 12px;
+  margin: 12px;
   max-width: 1200px;  
   min-height: 100vh;
   font-family: 'Cinzel', serif;
@@ -234,10 +239,13 @@ onUnmounted(() => {
   transition: all 0.3s ease;
   position: relative;
   z-index: 1001;
+  /* Fix para evitar texto borroso */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .wheel-toggle:hover {
-  transform: scale(1.1);
+  transform: translateZ(0) scale(1.1);
   box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5);
 }
 
@@ -288,6 +296,9 @@ onUnmounted(() => {
   backdrop-filter: blur(10px);
   border: 2px solid rgba(212, 175, 55, 0.3);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Fix para evitar texto borroso */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .wheel-item {
@@ -300,12 +311,15 @@ onUnmounted(() => {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center center;
+  /* Fix para evitar texto borroso */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .wheel-item.active .wheel-item-content {
   background: linear-gradient(135deg, #d4af37, #f4e7aa);
   color: #1a1a1a;
-  transform: scale(1.2) rotate(0deg);
+  transform: scale(1.2) rotate(0deg) translateZ(0);
 }
 
 .wheel-item-content {
@@ -321,10 +335,13 @@ onUnmounted(() => {
   border: 2px solid rgba(212, 175, 55, 0.3);
   backdrop-filter: blur(5px);
   transform-origin: center center;
+  /* Fix para evitar texto borroso */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .wheel-item:hover .wheel-item-content {
-  transform: scale(1.1) rotate(0deg);
+  transform: scale(1.1) rotate(0deg) translateZ(0);
   border-color: #d4af37;
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
@@ -340,6 +357,9 @@ onUnmounted(() => {
   text-align: center;
   line-height: 1.1;
   font-family: "Arvo", serif;
+  /* Fix para evitar texto borroso */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Contenido principal */
@@ -356,13 +376,15 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   opacity: 0.6;
-  transform: translateX(50px);
+  transform: translateX(50px) translateZ(0);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Fix para evitar texto borroso */
+  backface-visibility: hidden;
 }
 
 .wine-section.in-view {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0) translateZ(0);
 }
 
 .wine-content {
@@ -388,6 +410,10 @@ onUnmounted(() => {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  /* Fix para evitar texto borroso */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transform: translateZ(0);
 }
 
 .wine-divider {
@@ -405,6 +431,9 @@ onUnmounted(() => {
   color: #e6e6e6;
   font-weight: 300;
   letter-spacing: 1px;
+  /* Fix para evitar texto borroso */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .wine-benefits {
@@ -422,6 +451,9 @@ onUnmounted(() => {
   color: #cccccc;
   line-height: 1.5;
   letter-spacing: 0.5px;
+  /* Fix para evitar texto borroso */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .wine-benefits li::before {
@@ -441,6 +473,9 @@ onUnmounted(() => {
   line-height: 1.6;
   letter-spacing: 1px;
   font-weight: 300;
+  /* Fix para evitar texto borroso */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .wine-image {
@@ -458,28 +493,55 @@ onUnmounted(() => {
   object-fit: cover;
   filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
   transition: transform 0.3s ease;
+  /* Fix para evitar imagen borrosa */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .wine-bottle:hover {
-  transform: scale(1.05);
+  transform: translateZ(0) scale(1.05);
 }
 
-/* Responsive */
+/* Responsive Mejorado */
 @media (max-width: 768px) {
   .wine-wheel-menu {
-    left: 15px;
+    right: auto;
+    left: 20px;
     top: 20px;
     transform: none;
   }
   
   .wheel-toggle {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
+    transform: translateZ(0);
+  }
+  
+  .wheel-toggle:hover {
+    transform: translateZ(0) scale(1.05);
   }
   
   .wheel-container {
-    width: 240px;
-    height: 240px;
+    width: 250px;
+    height: 250px;
+    top: 60px;
+    right: auto;
+    left: 0;
+    transform: scale(0.3);
+  }
+  
+  .wine-wheel-menu.expanded .wheel-container {
+    transform: scale(1);
+  }
+  
+  .wheel-item {
+    width: 70px;
+    height: 70px;
+    margin: -35px 0 0 -35px;
+  }
+  
+  .wheel-item-text {
+    font-size: 9px;
   }
   
   .wine-content {
@@ -489,16 +551,93 @@ onUnmounted(() => {
   }
   
   .wine-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+  
+  .wine-subtitle {
+    font-size: 1rem;
+  }
+  
+  .wine-benefits li {
+    font-size: 0.9rem;
+    text-align: left;
   }
   
   .wine-section {
-    padding: 60px 20px;
+    padding: 40px 20px;
+    min-height: auto;
   }
   
   .wine-bottle {
-    width: 200px;
-    height: 360px;
+    width: 220px;
+    height: 400px;
+  }
+  
+  .wine-image {
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .wine-catalog {
+    margin: 8px;
+  }
+  
+  .wine-wheel-menu {
+    left: 15px;
+    top: 15px;
+  }
+  
+  .wheel-toggle {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .wheel-container {
+    width: 220px;
+    height: 220px;
+    top: 55px;
+  }
+  
+  .wheel-item {
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+  }
+  
+  .wheel-item-icon {
+    font-size: 16px;
+  }
+  
+  .wheel-item-text {
+    font-size: 8px;
+  }
+  
+  .wine-title {
+    font-size: 1.8rem;
+  }
+  
+  .wine-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  .wine-benefits li {
+    font-size: 0.85rem;
+    margin: 12px 0;
+  }
+  
+  .wine-description {
+    font-size: 0.9rem;
+  }
+  
+  .wine-section {
+    padding: 30px 15px;
+  }
+  
+  .wine-bottle {
+    width: 180px;
+    height: 320px;
   }
 }
 
